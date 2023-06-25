@@ -14,7 +14,7 @@ export class Shader {
     this.program = null
   }
   init(gl) {
-    this.program = createProgramFromSrc(this.vSrc,this.fSrc)
+    this.program = createProgramFromSrc(gl,this.vSrc,this.fSrc)
   }
   /**
    * @param {WebGL2RenderingContext} gl
