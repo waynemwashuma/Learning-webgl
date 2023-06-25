@@ -1,4 +1,6 @@
 export class Mesh {
+  matrix = null
+  position = null
   constructor(geometry, material) {
     this.geometry = geometry
     this.material = material

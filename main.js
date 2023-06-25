@@ -47,14 +47,13 @@ void main(){
 gl.clearColor(0.0, 0.0, 0.0, 1.0)
 setViewport(gl, 300, 300)
 
-let m = new Mesh(new Geometry([0, 0,0]), new Shader(vshader, fshader, {
+let m = new Mesh(new Geometry([0,0,0,0.4,0.4,0,-0.4,0.4,0]), new Shader(vshader, fshader, {
   pointSize: {
     value: 50.0,
     type: "1f"
   }
 }))
 m.init(gl)
-console.log(m);
 let size = 50
 render()
 

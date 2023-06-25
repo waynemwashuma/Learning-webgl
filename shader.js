@@ -22,7 +22,6 @@ export class Shader {
     for (var name in this.uniforms) {
       this.uniforms[name].location = gl.getUniformLocation(this.program, name)
     }
-    console.log(gl.getAttribLocation(this.program,ATTR_NORMAL_NAME));
   }
   /**
    * @param {WebGL2RenderingContext} gl
@@ -46,6 +45,7 @@ export class Shader {
    * @param {WebGL2RenderingContext} gl
    */
   renderGL(gl, attr) {
+    attr.drawMode = gl.TRIANGLES
     if (attr.attributes.indices) {
       gl.drawElements(attr.drawMode, attr.attributes.indices.count, gl.UNSIGNED_SHORT, 0)
     } else {
