@@ -8,6 +8,10 @@ let ATTR_UV_LOC = 2
 
 
 let canvas = document.getElementById("can")
+/**
+ * @type {WebGL2RenderingContext}
+ */
+let gl = canvas.getContext("webgl2")
 let vshader = `
 precision mediump float;
 
@@ -27,10 +31,6 @@ void main(){
   gl_FragColor = vec4(1.0,1.0,0.0,1.0);
 }
 `
-/**
- * @type {WebGLRenderingContext}
- */
-let gl = canvas.getContext("webgl")
 
 gl.clearColor(0.0, 0.0, 0.0, 1.0)
 setViewport(gl, 300, 300)
@@ -66,13 +66,10 @@ render()
 
 
 
-
-
-
-function render(dt){
+function render(dt) {
   clear(gl)
   size -= 0.2
-  gl.uniform1f(id2,size)
+  gl.uniform1f(id2, size)
   gl.drawArrays(gl.POINTS, 0, 1)
   requestAnimationFrame(render)
 }
@@ -153,17 +150,22 @@ function setViewport(gl, w, h) {
 /**
  * @param {WebGLRenderingContext} gl
  */
-function createBuffer(gl, typedarray,isstatic = true) {
+function createBuffer(gl, typedarray, vao, isstatic = true, bind = true) {
   let buffer = gl.createBuffer()
-
-  gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
-  gl.bufferData(gl.ARRAY_BUFFER, typedarray,
-  isstatic?gl.STATIC_DRAW:gl.DYNAMIC_DRAW)
-  gl.bindBuffer(gl.ARRAY_BUFFER, null)
+  if (vao) {
+    if (bind) gl.bindVertexArray(vao)
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+    gl.bufferData(gl.ARRAY_BUFFER, typedarray, isstatic ? gl.STATIC_DRAW : gl.DYNAMIC_DRAW)
+  } else {
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+    gl.bufferData(gl.ARRAY_BUFFER, typedarray,
+      isstatic ? gl.STATIC_DRAW : gl.DYNAMIC_DRAW)
+    gl.bindBuffer(gl.ARRAY_BUFFER, null)
+  }
   return buffer
 }
 /**
- * @param {WebGLRenderingContext} gl
+ * @param {WebGL2RenderingContext} gl
  */
 function createVAO(gl, indices, vertices, normals, uv) {
   let vao = {
@@ -172,32 +174,53 @@ function createVAO(gl, indices, vertices, normals, uv) {
 
     }
   }
+  vao.vao = gl.createVertexArray()
+  gl.bindVertexArray(vao.vao)
   if (indices != void 0) {
-    let dict = vao.attributes.element = {}
-    let buffer = createBuffer(gl,new Uint16Array(indices))
+    let dict = vao.attributes.indices = {}
+    let buffer = gl.createBuffer()
     dict.buffer = buffer
-    dict.size = 1;
-    dict.count = indices.length
+    dict.size = 1
+    dict.count = indices.length/1
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer)
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW)
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null)
   }
   if (vertices != void 0) {
     let dict = vao.attributes.position = {}
-    let buffer = createBuffer(gl,new Float32Array(vertices))
+    let buffer = createBuffer(gl, new Float32Array(vertices), vao.vao, true, false)
     dict.buffer = buffer
     dict.size = 3;
     dict.count = vertices.length / dict.size
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices),gl.STATIC_DRAW)
+    gl.enableVertexAttribArray(ATTR_POSITION_LOC)
+    gl.vertexAttribPointer(ATTR_POSITION_LOC, dict.size, gl.FLOAT, false, 0, 0)
   }
   if (normals != void 0) {
     let dict = vao.attributes.normals = {}
-    let buffer = createBuffer(gl,new Float32Array(normals))
+    let buffer = gl.createBuffer()
     dict.buffer = buffer
     dict.size = 3;
     dict.count = normals.length / dict.size
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normals),gl.STATIC_DRAW)
+    gl.enableVertexAttribArray(ATTR_NORMAL_LOC)
+    gl.vertexAttribPointer(ATTR_NORMAL_LOC,dict.size, gl.FLOAT, false, 0, 0)
   }
   if (uv != void 0) {
     let dict = vao.attributes.uv = {}
-    let buffer = createBuffer(gl,new Float32Array(uv))
+    let buffer = gl.createBuffer()
     dict.buffer = buffer
     dict.size = 2;
     dict.count = vertices.length / dict.size
+    
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uv),gl.STATIC_DRAW)
+    gl.enableVertexAttribArray(ATTR_UV_LOC)
+    gl.vertexAttribPointer(ATTR_UV_LOC, dict.size, gl.FLOAT, false, 0, 0)
   }
+  gl.bindVertexArray(null)
+  gl.bindBuffer(gl.ARRAY_BUFFER,null)
+  return vao
 }
