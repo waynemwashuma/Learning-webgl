@@ -8,17 +8,24 @@ import {
 } from "./constants.js"
 
 import {
-  clear,setViewport,createBuffer,createProgram,createshader,createVAO
+  clear,
+  setViewport,
+  createBuffer,
+  createProgram,
+  createshader,
+  createVAO
 } from "./functions.js"
-
+import { Mesh } from "./mesh.js"
+import { Shader } from "./shader.js"
+import { Geometry } from "./geometry.js"
 
 let canvas = document.getElementById("can")
 /**
  * @type {WebGL2RenderingContext}
  */
 let gl = canvas.getContext("webgl2")
-let vshader = 
-`precision mediump float;
+let vshader =
+  `precision mediump float;
 
 attribute vec3 a_position;
 uniform float pointSize;
@@ -30,7 +37,7 @@ void main(){
 
 `
 let fshader =
-`precision mediump float;
+  `precision mediump float;
 
 void main(){
   gl_FragColor = vec4(1.0,1.0,0.0,1.0);
@@ -39,33 +46,15 @@ void main(){
 
 gl.clearColor(0.0, 0.0, 0.0, 1.0)
 setViewport(gl, 300, 300)
-clear(gl)
 
-let v = createshader(gl, vshader, gl.VERTEX_SHADER)
-let f = createshader(gl, fshader, gl.FRAGMENT_SHADER)
-
-let prog = createProgram(gl, v, f)
-
-gl.useProgram(prog)
-let id1 = gl.getAttribLocation(prog, "a_position")
-let id2 = gl.getUniformLocation(prog, "pointSize")
-gl.useProgram(null)
-
-let vertices = new Float32Array([0, 0, 0])
-
-let buffer = gl.createBuffer()
-
-gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
-gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)
-gl.bindBuffer(gl.ARRAY_BUFFER, null)
-
-gl.useProgram(prog)
-
-gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
-gl.enableVertexAttribArray(id1)
-gl.vertexAttribPointer(id1, 3, gl.FLOAT, false, 0, 0)
-gl.bindBuffer(gl.ARRAY_BUFFER, null)
-
+let m = new Mesh(new Geometry([0, 0,0]), new Shader(vshader, fshader, {
+  pointSize: {
+    value: 50.0,
+    type: "1f"
+  }
+}))
+m.init(gl)
+console.log(m);
 let size = 50
 render()
 
@@ -73,10 +62,8 @@ render()
 
 function render(dt) {
   clear(gl)
+  m.material.setUniform("pointSize",size)
+  m.renderGL(gl)
   size -= 0.2
-  gl.uniform1f(id2, size)
-  gl.drawArrays(gl.POINTS, 0, 1)
   requestAnimationFrame(render)
 }
-
-

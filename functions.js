@@ -70,9 +70,9 @@ export function createProgram(gl, vshader, fshader) {
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
     console.log(`Program could not be linked: 
     ========================================
-    ${gl.getProgramInfoLog(shader)}
+    ${gl.getProgramInfoLog(program)}
     `);
-    gl.deleteProgram(shader)
+    gl.deleteProgram(program)
     return null
   }
   gl.validateProgram(program)
@@ -109,7 +109,8 @@ export function createVAO(gl, indices, vertices, normals, uv) {
     let buffer = gl.createBuffer()
     dict.buffer = buffer
     dict.size = 1
-    dict.count = indices.length / 1
+    dict.count = indices.length
+    
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer)
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW)
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null)
@@ -158,7 +159,7 @@ export function createVAO(gl, indices, vertices, normals, uv) {
  */
 export function createProgramFromSrc(gl, vshader, fshader) {
   let v = createshader(gl, vshader, gl.VERTEX_SHADER)
-  let f = createshader(gl, vshader, gl.VERTEX_SHADER)
+  let f = createshader(gl, fshader, gl.FRAGMENT_SHADER)
   if(f == null || v == null){
     gl.deleteShader(v)
     gl.deleteShader(f)

@@ -1,21 +1,28 @@
 import {
   createProgramFromSrc
 } from "./functions.js"
-
+import { ATTR_POSITION_NAME,ATTR_NORMAL_NAME } from "./constants.js"
 
 export class Shader {
   /**
    * @param {string} vshaderSrc
    * @param {string} fshaderSrc
    */
-  constructor(vshaderSrc, fshaderSrc) {
+  constructor(vshaderSrc, fshaderSrc,uniforms = {}) {
     this.vSrc = vshaderSrc
     this.fSrc = fshaderSrc
     this.program = null
-    this.uniforms = {}
+    this.uniforms = uniforms 
   }
+  /**
+   * @param {WebGL2RenderingContext} gl
+   */
   init(gl) {
     this.program = createProgramFromSrc(gl, this.vSrc, this.fSrc)
+    for (var name in this.uniforms) {
+      this.uniforms[name].location = gl.getUniformLocation(this.program, name)
+    }
+    console.log(gl.getAttribLocation(this.program,ATTR_NORMAL_NAME));
   }
   /**
    * @param {WebGL2RenderingContext} gl
@@ -29,18 +36,21 @@ export class Shader {
   deactivate(gl) {
     gl.useProgram(null)
   }
+  setUniform(name, value) {
+    this.uniforms[name].value = value
+  }
   preRender() {
 
   }
   /**
    * @param {WebGL2RenderingContext} gl
    */
-  render(gl) {
-    gl.bindVertexArray(this.attr.vao)
-    if(this.attr.attributes.indices){
-      gl.drawElements(this.attr.drawMode,this.attr.attributes.indices.count,gl.UNSIGNED_SHORT,0)
-    }else{
-      gl.drawArrays(this.attr.drawMode)
+  renderGL(gl, attr) {
+    if (attr.attributes.indices) {
+      gl.drawElements(attr.drawMode, attr.attributes.indices.count, gl.UNSIGNED_SHORT, 0)
+    } else {
+      gl.drawArrays(attr.drawMode, 0, attr.attributes.position.count)
+      console.log();
     }
   }
 }
