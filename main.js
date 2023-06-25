@@ -17,8 +17,8 @@ let canvas = document.getElementById("can")
  * @type {WebGL2RenderingContext}
  */
 let gl = canvas.getContext("webgl2")
-let vshader = `
-precision mediump float;
+let vshader = 
+`precision mediump float;
 
 attribute vec3 a_position;
 uniform float pointSize;
@@ -29,8 +29,8 @@ void main(){
 }
 
 `
-let fshader = `
-precision mediump float;
+let fshader =
+`precision mediump float;
 
 void main(){
   gl_FragColor = vec4(1.0,1.0,0.0,1.0);
