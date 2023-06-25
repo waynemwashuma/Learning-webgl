@@ -16,6 +16,29 @@ export function clear(gl) {
 /**
  * @param {WebGLRenderingContext} gl
  */
+export function setViewport(gl, w, h) {
+  let canvas = gl.canvas
+  canvas.style.width = w + "px"
+  canvas.style.height = h + "px"
+  canvas.width = w
+  canvas.height = h
+  gl.viewport(0, 0, w, h)
+}
+
+/**
+ * @param {WebGLRenderingContext} gl
+ */
+export function createBuffer(gl, typedarray, isstatic = true) {
+  let buffer = gl.createBuffer()
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+  gl.bufferData(gl.ARRAY_BUFFER, typedarray,
+    isstatic ? gl.STATIC_DRAW : gl.DYNAMIC_DRAW)
+  gl.bindBuffer(gl.ARRAY_BUFFER, null)
+  return buffer
+}
+/**
+ * @param {WebGLRenderingContext} gl
+ */
 export function createshader(gl, src, type) {
   let shader = gl.createShader(type)
   gl.shaderSource(shader, src)
@@ -68,29 +91,7 @@ export function createProgram(gl, vshader, fshader) {
   gl.deleteShader(fshader)
   return program
 }
-/**
- * @param {WebGLRenderingContext} gl
- */
-export function setViewport(gl, w, h) {
-  let canvas = gl.canvas
-  canvas.style.width = w + "px"
-  canvas.style.height = h + "px"
-  canvas.width = w
-  canvas.height = h
-  gl.viewport(0, 0, w, h)
-}
 
-/**
- * @param {WebGLRenderingContext} gl
- */
-export function createBuffer(gl, typedarray, isstatic = true) {
-  let buffer = gl.createBuffer()
-  gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
-  gl.bufferData(gl.ARRAY_BUFFER, typedarray,
-    isstatic ? gl.STATIC_DRAW : gl.DYNAMIC_DRAW)
-  gl.bindBuffer(gl.ARRAY_BUFFER, null)
-  return buffer
-}
 /**
  * @param {WebGL2RenderingContext} gl
  */
@@ -150,4 +151,19 @@ export function createVAO(gl, indices, vertices, normals, uv) {
   gl.bindVertexArray(null)
   gl.bindBuffer(gl.ARRAY_BUFFER, null)
   return vao
+}
+
+/**
+ * @param {WebGL2RenderingContext} gl
+ */
+export function createProgramFromSrc(gl, vshader, fshader) {
+  let v = createshader(gl, vshader, gl.VERTEX_SHADER)
+  let f = createshader(gl, vshader, gl.VERTEX_SHADER)
+  if(f == null || v == null){
+    gl.deleteShader(v)
+    gl.deleteShader(f)
+    return null
+  }
+  let program = createProgram(gl,v,f)
+  return program
 }
