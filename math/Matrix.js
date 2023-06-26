@@ -33,10 +33,11 @@ export class Matrix {
   }
   compose(position, rotation, scale) {
     mat4.identity(this.raw)
-    this.translate(position)
-      .rotateX(rotation.x * toRad)
+    this.rotateX(rotation.x * toRad)
       .rotateY(rotation.y * toRad)
       .rotateZ(rotation.z * toRad)
+      .scale(scale)
+      .translate(position)
     return this
   }
   lookAt(eye, target, up) {
