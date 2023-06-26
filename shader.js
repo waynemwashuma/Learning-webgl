@@ -45,7 +45,7 @@ export class Shader {
    * @param {WebGL2RenderingContext} gl
    */
   renderGL(gl, attr) {
-    //attr.drawMode = gl.LINE_LOOP
+    attr.drawMode = gl.LINE_LOOP
     if (attr.attributes.indices) {
       gl.drawElements(attr.drawMode, attr.attributes.indices.count, gl.UNSIGNED_SHORT, 0)
     } else {

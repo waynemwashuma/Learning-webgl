@@ -1,15 +1,19 @@
+
+import { Transform } from "/math/transform.js"
+
 export class Mesh {
-  matrix = null
-  position = null
+  transform = new Transform()
   constructor(geometry, material) {
     this.geometry = geometry
     this.material = material
   }
-  init(gl){
+  init(gl) {
     this.geometry.init(gl)
     this.material.init(gl)
   }
-  preRender() {}
+  preRender() {
+    this.transform.updateMatrix()
+  }
   /**
    * @param {WebGL2RenderingContext} gl
    */
@@ -17,10 +21,10 @@ export class Mesh {
     gl.bindVertexArray(this.geometry.attr.vao)
     this.material.activate(gl)
     for (var name in this.material.uniforms) {
-       let u = this.material.uniforms[name]
-       gl["uniform"+u.type](u.location,u.value)
+      let u = this.material.uniforms[name]
+      gl["uniform" + u.type](u.location, u.value)
     }
-    this.material.renderGL(gl,this.geometry.attr)
+    this.material.renderGL(gl, this.geometry.attr)
     this.material.deactivate(gl)
     gl.bindVertexArray(null)
   }

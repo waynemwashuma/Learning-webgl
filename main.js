@@ -18,7 +18,7 @@ import {
 import { Mesh } from "./mesh.js"
 import { Shader } from "./shader.js"
 import { Geometry } from "./geometry.js"
-import { Matrix4 } from "/math/Matrix.js"
+import { Matrix } from "/math/Matrix.js"
 import { Vector } from "/math/Vector.js"
 
 let canvas = document.getElementById("can")
