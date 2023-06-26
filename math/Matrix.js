@@ -24,12 +24,52 @@ export class Matrix {
     mat4.scale(this.raw, v.toArray(arr))
     return this
   }
-  scaleScl(x, y, z) {
-
+  scaleX(x) {
+    arr[0] = x
+    arr[1] = 1
+    arr[2] = 1
+    mat4.scale(this.raw, arr)
+  }
+  scaleY(x) {
+    arr[0] = 1
+    arr[1] = x
+    arr[2] = 1
+    mat4.scale(this.raw, arr)
+  }
+  scaleZ(x) {
+    arr[0] = 1
+    arr[1] = 1
+    arr[2] = x
+    mat4.scale(this.raw, arr)
   }
   translate(position) {
     mat4.translate(this.raw, position.toArray(arr))
     return this
+  }
+  translateX(x) {
+    arr[0] = x
+    arr[1] = 0
+    arr[2] = 0
+    mat4.translate(this.raw, arr)
+  }
+  translateY(x) {
+    arr[0] = 0
+    arr[1] = x
+    arr[2] = 0
+    mat4.translate(this.raw, arr)
+  }
+  translateZ(x) {
+    arr[0] = 0
+    arr[1] = 0
+    arr[2] = x
+    mat4.translate(this.raw, arr)
+  }
+  inverse() {
+    mat4.inverse(this.raw)
+    return this
+  }
+  transpose() {
+    mat4.transpose(this.raw)
   }
   compose(position, rotation, scale) {
     mat4.identity(this.raw)

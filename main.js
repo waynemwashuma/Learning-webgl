@@ -62,7 +62,6 @@ let m = new Mesh(new Geometry([0, -0.4, 0, 0.4, 0.4, 0, -0.4, 0.4, 0]), new Shad
   }
 }))
 m.init(gl)
-let size = 50
 render()
 
 
@@ -72,9 +71,6 @@ render()
 
 function render(dt) {
   clear(gl)
-  //m.material.setUniform("pointSize", size)
-  m.transform.matrix.rotateZ(0.02)
   m.renderGL(gl,cameraMatrix,projectionMatrix)
-  size -= 0.0000002
   requestAnimationFrame(render)
 }
