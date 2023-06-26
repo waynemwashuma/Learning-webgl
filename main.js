@@ -31,10 +31,13 @@ let vshader =
 
 attribute vec3 a_position;
 uniform float pointSize;
+uniform mat4 uCamera;
+uniform mat4 uProjection;
+uniform mat4 uModel;
 
 void main(){
   gl_PointSize = pointSize;
-  gl_Position = vec4(a_position,1.0);
+  gl_Position = uProjection * uCamera * uModel * vec4(a_position,1.0);
 }
 
 `
@@ -45,6 +48,9 @@ void main(){
   gl_FragColor = vec4(1.0,1.0,0.0,1.0);
 }
 `
+
+let cameraMatrix = new Matrix()
+let projectionMatrix = new Matrix()
 
 gl.clearColor(0.0, 0.0, 0.0, 1.0)
 setViewport(gl, 300, 300)
@@ -61,10 +67,13 @@ render()
 
 
 
+
+
+
 function render(dt) {
   clear(gl)
   m.material.setUniform("pointSize", size)
-  m.renderGL(gl)
+  m.renderGL(gl,cameraMatrix,projectionMatrix)
   size -= 0.2
   requestAnimationFrame(render)
 }

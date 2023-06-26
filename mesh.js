@@ -1,5 +1,9 @@
-
 import { Transform } from "/math/transform.js"
+import {
+  UNI_CAM_MAT,
+  UNI_PROJ_MAT,
+  UNI_MODEL_MAT
+} from "./constants.js"
 
 export class Mesh {
   transform = new Transform()
@@ -17,13 +21,19 @@ export class Mesh {
   /**
    * @param {WebGL2RenderingContext} gl
    */
-  renderGL(gl) {
+  renderGL(gl, camera, projection) {
+    let m = this.material
     gl.bindVertexArray(this.geometry.attr.vao)
     this.material.activate(gl)
-    for (var name in this.material.uniforms) {
-      let u = this.material.uniforms[name]
-      gl["uniform" + u.type](u.location, u.value)
-    }
+    gl.uniformMatrix4fv(
+      m.uniformLoc[UNI_CAM_MAT], false, camera.raw
+    )
+    gl.uniformMatrix4fv(
+      m.uniformLoc[UNI_PROJ_MAT], false, projection.raw
+    )
+    gl.uniformMatrix4fv(
+      m.uniformLoc[UNI_MODEL_MAT], false, this.transform.matrix.raw
+    )
     this.material.renderGL(gl, this.geometry.attr)
     this.material.deactivate(gl)
     gl.bindVertexArray(null)

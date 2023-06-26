@@ -4,3 +4,6 @@ export const ATTR_UV_NAME = "a_uv"
 export let ATTR_POSITION_LOC = 0
 export let ATTR_NORMAL_LOC = 1
 export let ATTR_UV_LOC = 2
+export const UNI_PROJ_MAT = "uProjection"
+export const UNI_CAM_MAT = "uCamera"
+export const UNI_MODEL_MAT = "uModel"

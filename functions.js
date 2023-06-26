@@ -168,3 +168,17 @@ export function createProgramFromSrc(gl, vshader, fshader) {
   let program = createProgram(gl,v,f)
   return program
 }
+
+/**
+ * @param {WebGL2RenderingContext} gl
+ */
+export function getAttrLoc(gl,program,name) {
+  return gl.getAttribLocation(program,name)
+}
+
+/**
+ * @param {WebGL2RenderingContext} gl
+ */
+export function getUniformLoc(gl,program,name) {
+  return gl.getUniformLocation(program,name)
+}

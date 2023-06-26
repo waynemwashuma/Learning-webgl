@@ -57,5 +57,3 @@ export class Matrix {
     return this
   }
 }
-
-console.log(new Matrix().rotateY(Math.PI / 2));
