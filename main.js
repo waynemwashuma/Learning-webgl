@@ -18,6 +18,8 @@ import {
 import { Mesh } from "./mesh.js"
 import { Shader } from "./shader.js"
 import { Geometry } from "./geometry.js"
+import { Matrix4 } from "/math/Matrix.js"
+import { Vector } from "/math/Vector.js"
 
 let canvas = document.getElementById("can")
 /**
@@ -47,7 +49,7 @@ void main(){
 gl.clearColor(0.0, 0.0, 0.0, 1.0)
 setViewport(gl, 300, 300)
 
-let m = new Mesh(new Geometry([0,0,0,0.4,0.4,0,-0.4,0.4,0]), new Shader(vshader, fshader, {
+let m = new Mesh(new Geometry([0, 0, 0, 0.4, 0.4, 0, -0.4, 0.4, 0]), new Shader(vshader, fshader, {
   pointSize: {
     value: 50.0,
     type: "1f"
@@ -61,7 +63,7 @@ render()
 
 function render(dt) {
   clear(gl)
-  m.material.setUniform("pointSize",size)
+  m.material.setUniform("pointSize", size)
   m.renderGL(gl)
   size -= 0.2
   requestAnimationFrame(render)
