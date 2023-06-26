@@ -55,7 +55,7 @@ let projectionMatrix = new Matrix()
 gl.clearColor(0.0, 0.0, 0.0, 1.0)
 setViewport(gl, 300, 300)
 
-let m = new Mesh(new Geometry([0, 0, 0, 0.4, 0.4, 0, -0.4, 0.4, 0]), new Shader(vshader, fshader, {
+let m = new Mesh(new Geometry([0, -0.4, 0, 0.4, 0.4, 0, -0.4, 0.4, 0]), new Shader(vshader, fshader, {
   pointSize: {
     value: 50.0,
     type: "1f"
@@ -72,8 +72,9 @@ render()
 
 function render(dt) {
   clear(gl)
-  m.material.setUniform("pointSize", size)
+  //m.material.setUniform("pointSize", size)
+  m.transform.matrix.rotateZ(0.02)
   m.renderGL(gl,cameraMatrix,projectionMatrix)
-  size -= 0.2
+  size -= 0.0000002
   requestAnimationFrame(render)
 }

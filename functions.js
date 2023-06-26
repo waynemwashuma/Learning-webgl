@@ -97,7 +97,7 @@ export function createProgram(gl, vshader, fshader) {
  */
 export function createVAO(gl, indices, vertices, normals, uv) {
   let vao = {
-    drawMode: gl.POINTS,
+    drawMode: gl.TRIANGLES,
     attributes: {
 
     }
