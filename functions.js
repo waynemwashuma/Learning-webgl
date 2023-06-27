@@ -55,7 +55,23 @@ export function createshader(gl, src, type) {
   }
   return shader
 }
-
+/**
+ * @param {WebGLRenderingContext} gl
+ */
+export function createTexture(gl,img,flipY ) {
+  let tex = gl.createTexture()
+  
+  if(flipY)gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true)
+  gl.bindTexture(gl.TEXTURE_2D,tex)
+  gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img)
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR)
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_NEAREST)
+  gl.generateMipmap(gl.TEXTURE_2D)
+  gl.bindTexture(gl.TEXTURE_2D,null)
+  
+    if(flipY)gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false)
+  return tex
+}
 /**
  * @param {WebGLRenderingContext} gl
  */
@@ -110,7 +126,7 @@ export function createVAO(gl, indices, vertices, normals, uv) {
     dict.buffer = buffer
     dict.size = 1
     dict.count = indices.length
-    
+
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer)
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW)
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null)
@@ -160,25 +176,25 @@ export function createVAO(gl, indices, vertices, normals, uv) {
 export function createProgramFromSrc(gl, vshader, fshader) {
   let v = createshader(gl, vshader, gl.VERTEX_SHADER)
   let f = createshader(gl, fshader, gl.FRAGMENT_SHADER)
-  if(f == null || v == null){
+  if (f == null || v == null) {
     gl.deleteShader(v)
     gl.deleteShader(f)
     return null
   }
-  let program = createProgram(gl,v,f)
+  let program = createProgram(gl, v, f)
   return program
 }
 
 /**
  * @param {WebGL2RenderingContext} gl
  */
-export function getAttrLoc(gl,program,name) {
-  return gl.getAttribLocation(program,name)
+export function getAttrLoc(gl, program, name) {
+  return gl.getAttribLocation(program, name)
 }
 
 /**
  * @param {WebGL2RenderingContext} gl
  */
-export function getUniformLoc(gl,program,name) {
-  return gl.getUniformLocation(program,name)
+export function getUniformLoc(gl, program, name) {
+  return gl.getUniformLocation(program, name)
 }

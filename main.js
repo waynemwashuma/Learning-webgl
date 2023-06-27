@@ -74,6 +74,6 @@ console.log(camera.projection);
 
 function render(dt) {
   clear(gl)
-  m.renderGL(gl,camera.transform.matrix,camera.projection)
+  m.renderGL(gl,camera.view,camera.projection)
   requestAnimationFrame(render)
 }
