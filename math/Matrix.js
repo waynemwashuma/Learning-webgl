@@ -80,6 +80,10 @@ export class Matrix {
       .translate(position)
     return this
   }
+  copy(m){
+    mat4.set(m.raw,this.raw)
+    return this
+  }
   lookAt(eye, target, up) {
     mat4.lookAt(
       eye.toArray(arr),

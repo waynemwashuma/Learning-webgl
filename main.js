@@ -6,7 +6,6 @@ import {
   ATTR_NORMAL_NAME,
   ATTR_UV_NAME
 } from "./constants.js"
-
 import {
   clear,
   setViewport,
@@ -20,6 +19,8 @@ import { Shader } from "./shader.js"
 import { Geometry } from "./geometry.js"
 import { Matrix } from "/math/Matrix.js"
 import { Vector } from "/math/Vector.js"
+import { Camera } from "/camera.js"
+
 
 let canvas = document.getElementById("can")
 /**
@@ -47,8 +48,9 @@ let fshader =
 void main(){
   gl_FragColor = vec4(1.0,1.0,0.0,1.0);
 }
-`
 
+`
+let camera = new Camera()
 let cameraMatrix = new Matrix()
 let projectionMatrix = new Matrix()
 
@@ -66,11 +68,12 @@ render()
 
 
 
-
+//camera.updateProjection()
+console.log(camera.projection);
 
 
 function render(dt) {
   clear(gl)
-  m.renderGL(gl,cameraMatrix,projectionMatrix)
+  m.renderGL(gl,camera.transform.matrix,camera.projection)
   requestAnimationFrame(render)
 }
