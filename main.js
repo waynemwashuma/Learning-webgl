@@ -74,11 +74,11 @@ render()
 
 function render(dt) {
   clear(gl)
-  camera.transform.position.x = 1
-  camera.transform.rotation.z += Math.PI/100
-  camera.updateMatrix()
+  //camera.transform.position.x = 1
   //m.transform.rotation.z += Math.PI/100
-  m.transform.updateMatrix()
+  //camera.transform.rotation.z += Math.PI/100
+  camera.updateMatrix()
+  m.preRender()
   m.renderGL(gl, camera.view, camera.projection)
   requestAnimationFrame(render)
 }

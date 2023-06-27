@@ -14,7 +14,6 @@ export class Camera {
       .rotateX(this.transform.rotation.x)
       .rotateY(this.transform.rotation.y)
       .rotateZ(this.transform.rotation.z)
-      .scale(this.transform.scale)
     
     this.view.copy(this.transform.matrix).inverse()
   }
