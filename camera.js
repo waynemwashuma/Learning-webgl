@@ -8,11 +8,17 @@ export class Camera {
   constructor() {
     //this.updateProjection()
   }
-  updateMatrix(){
-    this.transform.updateMatrix()
+  updateMatrix() {
+    this.transform.matrix.identity()
+      .translate(this.transform.position)
+      .rotateX(this.transform.rotation.x)
+      .rotateY(this.transform.rotation.y)
+      .rotateZ(this.transform.rotation.z)
+      .scale(this.transform.scale)
+    
     this.view.copy(this.transform.matrix).inverse()
   }
-  updateProjection(fov = 45,near = 0.1,far= 1000) {
-    this.projection.makePerspective(fov,9/6,near,far)
+  updateProjection(fov = 45, near = 0.1, far = 1000) {
+    this.projection.makePerspective(fov, 9 / 6, near, far)
   }
 }

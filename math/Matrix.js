@@ -90,7 +90,7 @@ export class Matrix {
   }
   identity() {
     mat4.identity(this.raw)
-    return
+    return this
   }
   copy(m) {
     mat4.set(m.raw, this.raw)
