@@ -69,11 +69,17 @@ render()
 
 
 //camera.updateProjection()
-console.log(camera.projection);
+//console.log(camera.projection);
 
 
 function render(dt) {
   clear(gl)
-  m.renderGL(gl,camera.view,camera.projection)
+  camera.updateMatrix()
+  //camera.view.identity()
+  //camera.view.rotateZ(Math.PI/2)
+  //m.transform.rotation.z += Math.PI/1
+  //m.transform.updateMatrix()
+  console.log(m.transform.matrix.raw);
+  m.renderGL(gl, camera.view, camera.projection)
   requestAnimationFrame(render)
 }

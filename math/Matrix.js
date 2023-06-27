@@ -68,7 +68,7 @@ export class Matrix {
     arr[1] = 0
     arr[2] = x
     mat4.translate(this.raw, arr)
-    
+
     return this
   }
   inverse() {
@@ -81,15 +81,19 @@ export class Matrix {
   }
   compose(position, rotation, scale) {
     mat4.identity(this.raw)
-    this.rotateX(rotation.x * toRad)
-      .rotateY(rotation.y * toRad)
-      .rotateZ(rotation.z * toRad)
+    this.rotateX(rotation.x)
+      .rotateY(rotation.y)
+      .rotateZ(rotation.z)
       .scale(scale)
       .translate(position)
     return this
   }
-  copy(m){
-    mat4.set(m.raw,this.raw)
+  identity() {
+    mat4.identity(this.raw)
+    return
+  }
+  copy(m) {
+    mat4.set(m.raw, this.raw)
     return this
   }
   lookAt(eye, target, up) {
