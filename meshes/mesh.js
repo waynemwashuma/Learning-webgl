@@ -1,9 +1,9 @@
-import { Transform } from "/math/transform.js"
+import { Transform } from "../math/transform.js"
 import {
   UNI_CAM_MAT,
   UNI_PROJ_MAT,
   UNI_MODEL_MAT
-} from "./constants.js"
+} from "../constants.js"
 
 export class Mesh {
   transform = new Transform()

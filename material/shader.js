@@ -1,11 +1,11 @@
 import {
   createProgramFromSrc
-} from "./functions.js"
+} from "../functions.js"
 import {
   UNI_CAM_MAT,
   UNI_PROJ_MAT,
   UNI_MODEL_MAT
-} from "./constants.js"
+} from "../constants.js"
 
 export class Shader {
   /**

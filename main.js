@@ -14,9 +14,9 @@ import {
   createshader,
   createVAO
 } from "./functions.js"
-import { Mesh } from "./mesh.js"
-import { Shader } from "./shader.js"
-import { Geometry } from "./geometry.js"
+import { Mesh } from "./meshes/mesh.js"
+import { Shader } from "./material/index.js"
+import { Geometry } from "./geometry/index.js"
 import { Matrix } from "/math/Matrix.js"
 import { Vector } from "/math/Vector.js"
 import { Camera } from "/camera.js"

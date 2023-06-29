@@ -1,4 +1,4 @@
-import { createVAO } from "./functions.js"
+import { createVAO } from "../functions.js"
 
 export class Geometry {
   constructor(positions = [], indices, normals, uv) {
