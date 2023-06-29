@@ -25,7 +25,6 @@ import { Renderer } from "./renderer.js"
 let canvas = document.getElementById("can")
 
 let renderer = new Renderer(canvas)
-let gl = canvas.getContext("webgl2")
 let vshader =
   `precision mediump float;
 
@@ -50,12 +49,6 @@ void main(){
 
 `
 let camera = new Camera()
-let cameraMatrix = new Matrix()
-let projectionMatrix = new Matrix()
-
-gl.clearColor(0.0, 0.0, 0.0, 1.0)
-setViewport(gl, 300, 300)
-
 let m = new Mesh(new Geometry([0, -0.4, 0, 0.4, 0.4, 0, -0.4, 0.4, 0]), new Shader(vshader, fshader, {
   pointSize: {
     value: 50.0,
@@ -63,18 +56,20 @@ let m = new Mesh(new Geometry([0, -0.4, 0, 0.4, 0.4, 0, -0.4, 0.4, 0]), new Shad
   }
 }))
 
-render()
-
 renderer.camera = camera
 renderer.add(m)
-
+renderer.setViewport(300, 300)
 
 camera.makePerspective(90)
 //camera.updateProjection()
 camera.transform.position.z = 3
 
+render()
+
+
+
+
 function render(dt) {
-  clear(gl)
   m.transform.rotation.z += Math.PI / 100
   //camera.transform.rotation.z += Math.PI/100
   renderer.update()
