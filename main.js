@@ -68,14 +68,12 @@ render()
 
 
 
+camera.makePerspective(90)
 //camera.updateProjection()
-//console.log(camera.projection);
-
-
+camera.transform.position.z = 3
 function render(dt) {
   clear(gl)
-  //camera.transform.position.x = 1
-  //m.transform.rotation.z += Math.PI/100
+  m.transform.rotation.z += Math.PI/100
   //camera.transform.rotation.z += Math.PI/100
   camera.updateMatrix()
   m.preRender()

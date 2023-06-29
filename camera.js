@@ -17,7 +17,10 @@ export class Camera {
     
     this.view.copy(this.transform.matrix).inverse()
   }
-  updateProjection(fov = 45, near = 0.1, far = 1000) {
-    this.projection.makePerspective(fov, 9 / 6, near, far)
+  updateProjection(width = 2, height = 2,near = -1000, far = 1000) {
+    this.projection.makeOthorgraphic(-width/2,width/2,-height/2, height/2, near, far)
+  }
+  makePerspective(fov = 45,near = 0.1,far = 1000){
+    this.projection.makePerspective(fov,innerWidth/innerHeight, near, far)
   }
 }
