@@ -15,7 +15,7 @@ export class Mesh {
     this.geometry.init(gl)
     this.material.init(gl)
   }
-  preRender() {
+  update() {
     this.transform.updateMatrix()
   }
   /**

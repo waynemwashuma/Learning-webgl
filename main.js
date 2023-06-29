@@ -20,12 +20,11 @@ import { Geometry } from "./geometry/index.js"
 import { Matrix } from "/math/Matrix.js"
 import { Vector } from "/math/Vector.js"
 import { Camera } from "/camera.js"
-
+import { Renderer } from "./renderer.js"
 
 let canvas = document.getElementById("can")
-/**
- * @type {WebGL2RenderingContext}
- */
+
+let renderer = new Renderer(canvas)
 let gl = canvas.getContext("webgl2")
 let vshader =
   `precision mediump float;
@@ -63,20 +62,21 @@ let m = new Mesh(new Geometry([0, -0.4, 0, 0.4, 0.4, 0, -0.4, 0.4, 0]), new Shad
     type: "1f"
   }
 }))
-m.init(gl)
+
 render()
 
+renderer.camera = camera
+renderer.add(m)
 
 
 camera.makePerspective(90)
 //camera.updateProjection()
 camera.transform.position.z = 3
+
 function render(dt) {
   clear(gl)
-  m.transform.rotation.z += Math.PI/100
+  m.transform.rotation.z += Math.PI / 100
   //camera.transform.rotation.z += Math.PI/100
-  camera.updateMatrix()
-  m.preRender()
-  m.renderGL(gl, camera.view, camera.projection)
+  renderer.update()
   requestAnimationFrame(render)
 }
