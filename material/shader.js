@@ -19,7 +19,7 @@ export class Shader {
     this.uniforms = uniforms
     this.matuniforms = {}
     this.uniformLoc = {}
-    
+
   }
   /**
    * @param {WebGL2RenderingContext} gl
@@ -31,7 +31,7 @@ export class Shader {
     for (var name in this.uniforms) {
       this.uniformLoc[name] = gl.getUniformLocation(this.program, name)
     }
-    Shader.getStandardUniformLoc(gl,this.program,this.uniformLoc)
+    Shader.getStandardUniformLoc(gl, this.program, this.uniformLoc)
   }
   /**
    * @param {WebGL2RenderingContext} gl
@@ -41,7 +41,7 @@ export class Shader {
     for (var name in this.uniforms) {
       let u = this.uniforms[name]
       gl["uniform" + u.type]
-      (this.uniformLoc[name], u.value)
+        (this.uniformLoc[name], u.value)
     }
   }
   /**
@@ -53,27 +53,25 @@ export class Shader {
   setUniform(name, value) {
     this.uniforms[name].value = value
   }
-  preRender() {
-
-  }
   /**
    * @param {WebGL2RenderingContext} gl
    */
   renderGL(gl, attr) {
     //attr.drawMode = gl.LINE_LOOP
     if (attr.attributes.indices) {
-      gl.drawElements(attr.drawMode, attr.attributes.indices.count, gl.UNSIGNED_SHORT, 0)
+      gl.drawElements(attr.drawMode, attr.attributes.indices.count, gl.UNSIGNED_SHORT,0);
+      //console.log(attr.attributes.indices.count)
     } else {
       gl.drawArrays(attr.drawMode, 0, attr.attributes.position.count)
-      console.log();
+
     }
   }
   /**
    * @param {WebGL2RenderingContext} gl
    */
   static getStandardUniformLoc(gl, program, loc = {}) {
-    loc[UNI_CAM_MAT] = gl.getUniformLocation(program,UNI_CAM_MAT )
-    loc[UNI_MODEL_MAT] = gl.getUniformLocation(program,UNI_MODEL_MAT )
+    loc[UNI_CAM_MAT] = gl.getUniformLocation(program, UNI_CAM_MAT)
+    loc[UNI_MODEL_MAT] = gl.getUniformLocation(program, UNI_MODEL_MAT)
     loc[UNI_PROJ_MAT] = gl.getUniformLocation(program, UNI_PROJ_MAT)
     return loc
   }

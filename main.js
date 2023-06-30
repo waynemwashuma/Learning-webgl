@@ -49,7 +49,7 @@ void main(){
 
 `
 let camera = new Camera()
-let m = new Mesh(new Geometry([0, -0.4, 0, 0.4, 0.4, 0, -0.4, 0.4, 0]), new Shader(vshader, fshader, {
+let m = new Mesh(new Geometry([0, -0.4, 0, 0.4, 0.4, 0, -0.4, 0.4, 0],[0,1,2]), new Shader(vshader, fshader, {
   pointSize: {
     value: 50.0,
     type: "1f"

@@ -23,8 +23,9 @@ export class Mesh {
    */
   renderGL(gl, camera, projection) {
     let m = this.material
-    gl.bindVertexArray(this.geometry.attr.vao)
+    
     this.material.activate(gl)
+    gl.bindVertexArray(this.geometry.attr.vao)
     gl.uniformMatrix4fv(
       m.uniformLoc[UNI_CAM_MAT], false, camera.raw
     )

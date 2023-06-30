@@ -129,11 +129,11 @@ export function createVAO(gl, indices, vertices, normals, uv) {
 
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer)
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW)
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null)
+    //gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null)
   }
   if (vertices != void 0) {
     let dict = vao.attributes.position = {}
-    let buffer = createBuffer(gl, new Float32Array(vertices), vao.vao, true, false)
+    let buffer = gl.createBuffer()
     dict.buffer = buffer
     dict.size = 3;
     dict.count = vertices.length / dict.size
