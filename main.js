@@ -16,7 +16,7 @@ import {
 } from "./functions.js"
 import { Mesh } from "./meshes/mesh.js"
 import { Shader } from "./material/index.js"
-import { Geometry } from "./geometry/index.js"
+import { BoxGeometry, Geometry } from "./geometry/index.js"
 import { Matrix } from "/math/Matrix.js"
 import { Vector } from "/math/Vector.js"
 import { Camera } from "/camera.js"
@@ -29,19 +29,24 @@ let vshader =
   `precision mediump float;
 
 attribute vec3 a_position;
+attribute vec3 a_normal;
 uniform float pointSize;
 uniform mat4 uCamera;
 uniform mat4 uProjection;
 uniform mat4 uModel;
+varying vec3 color;
 
 void main(){
   gl_PointSize = pointSize;
   gl_Position = uProjection * uCamera * uModel * vec4(a_position,1.0);
+  color = a_normal;
 }
 
 `
 let fshader =
   `precision mediump float;
+varying vec3 color;
+
 
 void main(){
   gl_FragColor = vec4(1.0,1.0,0.0,1.0);
@@ -49,7 +54,7 @@ void main(){
 
 `
 let camera = new Camera()
-let m = new Mesh(new Geometry([0, -0.4, 0, 0.4, 0.4, 0, -0.4, 0.4, 0],[0,1,2]), new Shader(vshader, fshader, {
+let m = new Mesh(new BoxGeometry([0, -0.4, 0, 0.4, 0.4, 0, -0.4, 0.4, 0], [0, 1, 2]), new Shader(vshader, fshader, {
   pointSize: {
     value: 50.0,
     type: "1f"
@@ -70,7 +75,7 @@ render()
 
 
 function render(dt) {
-  m.transform.rotation.z += Math.PI / 100
+  m.transform.rotation.y += Math.PI / 100
   //camera.transform.rotation.z += Math.PI/100
   renderer.update()
   requestAnimationFrame(render)
