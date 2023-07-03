@@ -16,7 +16,11 @@ import {
 } from "./functions.js"
 import { Mesh } from "./meshes/mesh.js"
 import { Shader } from "./material/index.js"
-import { BoxGeometry, Geometry } from "./geometry/index.js"
+import {
+  BoxGeometry,
+  Geometry,
+  PlaneGeometry
+} from "./geometry/index.js"
 import { Matrix } from "/math/Matrix.js"
 import { Vector } from "/math/Vector.js"
 import { Camera } from "/camera.js"
@@ -54,7 +58,7 @@ void main(){
 
 `
 let camera = new Camera()
-let m = new Mesh(new BoxGeometry([0, -0.4, 0, 0.4, 0.4, 0, -0.4, 0.4, 0], [0, 1, 2]), new Shader(vshader, fshader, {
+let m = new Mesh(new PlaneGeometry([0, -0.4, 0, 0.4, 0.4, 0, -0.4, 0.4, 0], [0, 1, 2]), new Shader(vshader, fshader, {
   pointSize: {
     value: 50.0,
     type: "1f"
